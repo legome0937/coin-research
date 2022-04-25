@@ -1,77 +1,188 @@
-import NextImage from "next/image";
+import {
+  Avatar,
+  Box,
+  Center,
+  Drawer,
+  DrawerContent,
+  DrawerOverlay,
+  Flex,
+  Icon,
+  Image,
+  IconButton,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Text,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  useColorModeValue,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { FaBell, FaClipboardCheck, FaRss } from "react-icons/fa";
+import { AiFillGift, AiOutlineDashboard } from "react-icons/ai";
+import { BsGearFill } from "react-icons/bs";
+import { FiMenu, FiSearch } from "react-icons/fi";
+import { HiCode, HiCollection } from "react-icons/hi";
+import { MdHome } from "react-icons/md";
+import React from "react";
 
-import { Box, Heading, Text, Button } from "@chakra-ui/react";
-import { NextSeo } from "next-seo";
+export default function Swibc() {
+  const sidebar = useDisclosure();
 
-const Home = () => (
-  <>
-    <NextSeo title="Home" />
+  const NavItem = (props) => {
+    const { icon, children, ...rest } = props;
+    return (
+      <Flex
+        align="center"
+        px="4"
+        mx="2"
+        rounded="md"
+        py="3"
+        cursor="pointer"
+        color="whiteAlpha.700"
+        _hover={{
+          bg: "blackAlpha.300",
+          color: "whiteAlpha.900",
+        }}
+        role="group"
+        fontWeight="semibold"
+        transition=".15s ease"
+        {...rest}
+      >
+        {icon && (
+          <Icon
+            mr="2"
+            boxSize="4"
+            _groupHover={{
+              color: "gray.300",
+            }}
+            as={icon}
+          />
+        )}
+        {children}
+      </Flex>
+    );
+  };
 
+  const SidebarContent = (props) => (
+    <Box
+      as="nav"
+      pos="fixed"
+      top="0"
+      left="0"
+      zIndex="sticky"
+      h="full"
+      pb="10"
+      overflowX="hidden"
+      overflowY="auto"
+      bg="brand.600"
+      borderColor="blackAlpha.300"
+      borderRightWidth="1px"
+      w="60"
+      {...props}
+    >
+      <Flex px="4" py="5" align="center">
+        <Text fontSize="2xl" ml="2" color="white" fontWeight="semibold">
+          # Shane.net
+        </Text>
+      </Flex>
+      <Flex
+        direction="column"
+        as="nav"
+        fontSize="sm"
+        color="gray.600"
+        aria-label="Main Navigation"
+      >
+        <NavItem icon={AiOutlineDashboard}>Dashboard</NavItem>
+        <NavItem>Item</NavItem>
+        <NavItem>Item</NavItem>
+        <NavItem>Item</NavItem>
+        <NavItem>Item</NavItem>
+        <NavItem>Item</NavItem>
+        <NavItem>Item</NavItem>
+        <NavItem>Item</NavItem>
+      </Flex>
+    </Box>
+  );
+  return (
     <Box
       as="section"
-      maxW="1440px"
-      py="4"
-      px={[4, 6, 10, 14, 20]}
-      mx="auto"
-      display="flex"
-      flexDir={{ base: "column-reverse", lg: "row" }}
-      justifyContent={{ base: "center", lg: "space-between" }}
-      alignItems="center"
-      textAlign={{ base: "center", lg: "left" }}
+      bg={useColorModeValue("gray.50", "gray.700")}
+      minH="100vh"
     >
-      <Box pr={{ lg: "4" }} maxW={{ base: "90%", lg: "50%" }}>
-        <Heading
-          as="h1"
-          fontSize={{ base: "1.5rem", sm: "2rem", lg: "3rem" }}
-          fontWeight="800"
+      <SidebarContent display={{ base: "none", md: "unset" }} />
+      <Drawer
+        isOpen={sidebar.isOpen}
+        onClose={sidebar.onClose}
+        placement="left"
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <SidebarContent w="full" borderRight="none" />
+        </DrawerContent>
+      </Drawer>
+      <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
+        <Flex
+          as="header"
+          align="center"
+          justify="space-between"
+          w="full"
+          px="4"
+          bg={useColorModeValue("white", "gray.800")}
+          borderBottomWidth="1px"
+          borderColor="blackAlpha.300"
+          h="14"
         >
-          Help your team for tracking projects better.
-        </Heading>
-        <Text fontWeight="400" pt="4" pb="10">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore atque
-          perspiciatis qui ex ducimus nesciunt et nam. In amet earum optio cum
-          aperiam autem, possimus vero voluptates! Laboriosam, possimus
-          aspernatur.
-        </Text>
-        <Box
-          display="flex"
-          justifyContent={{ base: "center", lg: "flex-start" }}
-          alignItems="center"
-          flexDir={{ base: "column", lg: "row" }}
-        >
-          <Button
-            colorScheme="facebook"
-            variant="solid"
-            mb="2"
-            mr={{ lg: "5" }}
-            fontWeight="600"
-            size="lg"
-          >
-            Create new account
-          </Button>
-          <Button
-            colorScheme="facebook"
-            variant="outline"
-            mb="2"
-            px="12"
-            fontWeight="600"
-            size="lg"
-          >
-            Login
-          </Button>
+          <IconButton
+            aria-label="Menu"
+            display={{ base: "inline-flex", md: "none" }}
+            onClick={sidebar.onOpen}
+            icon={<FiMenu />}
+            size="sm"
+          />
+          <Box w="full" fontSize={["sm", "md", "lg", "xl"]}>
+            <Flex align="center" justify="center">
+              <Center>
+                <Text>Marketplace Coin Research</Text>
+              </Center>
+            </Flex>
+          </Box>
+        </Flex>
+        <Box as="main" p="4">
+          {/* Add content here, remove div below  */}
+          <Box borderWidth="4px" borderStyle="dashed" rounded="md" h="96">
+            <Box w="full" display={{ base: "inline-flex", md: "none" }}>
+              <Tabs isFitted defaultIndex={1} w="full">
+                <TabList>
+                  <Tab>Naruto</Tab>
+                  <Tab>Sasuke</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel>
+                    <Image
+                      alt="Image"
+                      boxSize="200px"
+                      fit="cover"
+                      src="https://resizing.flixster.com/wTgvsiM8vNLhCcCH-6ovV8n5z5U=/300x300/v1.bjsyMDkxMzI5O2o7MTgyMDQ7MTIwMDsxMjAwOzkwMA"
+                    />
+                  </TabPanel>
+                  <TabPanel>
+                    <Image
+                      alt="Image"
+                      boxSize="200px"
+                      fit="cover"
+                      src="https://vignette.wikia.nocookie.net/naruto/images/2/21/Sasuke_Part_1.png/revision/latest?cb=20170716092103"
+                    />
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
+            </Box>
+          </Box>
         </Box>
       </Box>
-      <Box maxW={{ base: "xl", lg: "auto" }}>
-        <NextImage
-          src="/team-bro.png"
-          width="600"
-          height="600"
-          alt="team"
-          priority
-        />
-      </Box>
     </Box>
-  </>
-);
-
-export default Home;
+  );
+}

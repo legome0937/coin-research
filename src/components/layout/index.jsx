@@ -4,7 +4,7 @@ import Header from "../header";
 
 const Layout = ({ children }) => (
   <>
-    <Header />
+
     <Box as="main">{children}</Box>
   </>
 );
